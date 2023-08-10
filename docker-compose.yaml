@@ -12,3 +12,14 @@ services:
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
+  minio:
+    image: minio/minio
+    container_name: minio
+    ports:
+    - "9000:9000"
+    environment:
+     MINIO_ACCESS_KEY: "8hzEe6m0CHClRlZudZ6l"
+     MINIO_SECRET_KEY: "qXXnIDz2CUW0eXReb6Ghb77guwmnXL3OLzEGe5KQ"
+    volumes:
+    - ./minio-data:/data
+    command: server /data
