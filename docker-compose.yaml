@@ -12,6 +12,10 @@ services:
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
+  master_redis_secondary:
+    image: redis/redis-stack:latest
+    ports:
+      - "6380:6380"
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
