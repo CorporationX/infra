@@ -35,3 +35,19 @@ services:
       /usr/bin/mc anonymous set public minio/corpbucket;
       exit 0;
       "
+  master_kafka:
+    image: bitnami/kafka:latest
+    ports:
+      - '9092:9092'
+      - '9093:9093'
+    environment:
+      - KAFKA_NODE_ID=1
+      - KAFKA_PROCESS_ROLES=broker,controller
+      - KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+      - KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
+      - KAFKA_LOG_DIRS=/var/lib/kafka/data
+      - KAFKA_KRAFT_CLUSTER_ID=1
+    volumes:
+      - ./kafka-data:/var/lib/kafka/data
