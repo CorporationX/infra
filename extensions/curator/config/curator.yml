@@ -1,0 +1,9 @@
+client:
+  hosts:
+    - elasticsearch
+  port: 9200
+  http_auth: 'elastic:changeme'
+
+logging:
+  loglevel: INFO
+  logformat: default
