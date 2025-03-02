@@ -10,4 +10,5 @@ services:
     user: "${UID:-1000}" # Автоматически подставляет ID текущего пользователя
     restart: unless-stopped
 
+# login: admin; password: admin;
 # docker run --name pdf-service-grafana -p 3000:3000 -v ./data/grafana:/var/lib/grafana -u "$(id -u)" grafana/grafana:10.2.4

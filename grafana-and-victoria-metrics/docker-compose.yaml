@@ -1,0 +1,30 @@
+version: '3'
+services:
+  pdf-service-metrics:
+    image: victoriametrics/victoria-metrics:v1.93.12
+    container_name: pdf-service-metrics
+    ports:
+      - "8428:8428"
+    volumes:
+      - ./config/victoria-metrics/promscrape.yaml:/promscrape.yaml
+    command:
+      - "-promscrape.config=promscrape.yaml"
+    networks:
+      - monitoring
+
+  pdf-service-grafana:
+    image: grafana/grafana:10.2.4
+    container_name: pdf-service-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    user: "${UID:-1000}" # Автоматически подставляет ID текущего пользователя
+    restart: unless-stopped
+    networks:
+      - monitoring
+  # login: admin; password: admin;
+
+networks:
+  monitoring:
+    driver: bridge

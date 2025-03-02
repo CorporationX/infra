@@ -1,0 +1,5 @@
+scrape_configs:
+  - job_name: pdf_as_scanned_service
+    static_configs:
+      - targets: ["http://172.17.0.1:8080"]
+    metrics_path: /actuator/prometheus
