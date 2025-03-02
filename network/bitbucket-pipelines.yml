@@ -1,0 +1,53 @@
+pipelines:
+  pull-requests:
+    '**':
+      - parallel:
+          - step: &dev_deploy
+              trigger: manual
+              script:
+                - pipe: atlassian/ssh-run:0.4.1
+                  variables:
+                    SSH_USER: 'devlabs'
+                    SERVER: 'devadmin.joinee.io'
+                    PORT: 19777
+                    COMMAND: >-
+                      cd /var/www/backend_test &&
+                      git fetch --all &&
+                      git checkout ${BITBUCKET_BRANCH:-'develop'} &&
+                      git pull &&
+                      ./mvnw --settings .mvn/settings/settings.xml clean package -DskipTests -Dmaven.test.skip=true -P dev spring-boot:build-image &&
+                      docker image prune -f &&
+                      docker-compose up -d --build web django_admin &&
+                      (timeout 30s docker-compose logs -f web: echo "Stop following logs after timeout reached"; exit 0 )
+                    ENV_VARS: >-
+                      BITBUCKET_BRANCH=${BITBUCKET_BRANCH}
+    release/*:
+      - parallel:
+          - step: *build_java
+          - step: *dev_deploy
+      - parallel: &prod_deploy
+          - step:
+              name: deploy to prod RU
+              deployment: prod-ru
+              trigger: manual
+              script:
+                - pipe: atlassian/ssh-run:0.4.1
+                  variables:
+                    SSH_USER: 'devlabs'
+                    SERVER: 'skolkovo.joinee.io'
+                    PORT: 19777
+                    COMMAND: >-
+                      cd /var/www/mipt/backend_prod &&
+                      git fetch --all &&
+                      get checkout ${BITBUCKET_BRANCH:-'develop'} &&
+                      git pull &&
+                      ./mvnw --settings .mvn/settings/settings.xml clean package -DskipTests -P prod spring-boot:build-image &&
+                      docker image prune -f &&
+                      docker-compose -f docker-compose.prod.yml up -d --build web django_admin &&
+                      (timeout 30s docker-compose -f docker-compose.prod.yml logs -f web; echo "Stop following logs after timeout reached"; exit 0 )
+                    ENV_VARS: >-
+                      BITBUCKET_BRANCH=${BITBUCKET_BRANCH}
+          - step:
+              name: deploy to prod EU
+              deployment: prod-eu
+              trigger: manual

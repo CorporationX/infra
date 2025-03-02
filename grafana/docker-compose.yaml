@@ -1,0 +1,13 @@
+version: '3'
+services:
+  pdf-service-grafana:
+    image: grafana/grafana:10.2.4
+    container_name: pdf-service-grafana
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+    user: "${UID:-1000}" # Автоматически подставляет ID текущего пользователя
+    restart: unless-stopped
+
+# docker run --name pdf-service-grafana -p 3000:3000 -v ./data/grafana:/var/lib/grafana -u "$(id -u)" grafana/grafana:10.2.4
