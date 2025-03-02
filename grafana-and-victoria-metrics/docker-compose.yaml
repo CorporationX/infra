@@ -25,6 +25,15 @@ services:
       - monitoring
   # login: admin; password: admin;
 
+  pdf-loki:
+    image: grafana/loki:2.9.4
+    container_name: pdf-loki
+    ports:
+      - "3100:3100"
+    networks:
+      - monitoring
+  # docker run --name pdf-loki -p 3100:3100 grafana/loki:2.9.4
+
 networks:
   monitoring:
     driver: bridge
