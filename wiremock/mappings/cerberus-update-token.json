@@ -1,0 +1,13 @@
+{
+  "request": {
+    "method": "POST",
+    "url": "/cerberus:8080/oauth/token"
+  },
+  "response": {
+    "status": 200,
+    "body": "{ \"access_token\": \"<token>\" }",
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

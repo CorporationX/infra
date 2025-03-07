@@ -32,6 +32,8 @@ services:
       - "3100:3100"
     networks:
       - monitoring
+    environment:
+      - LOKI=http://172.17.0.1:3100
   # docker run --name pdf-loki -p 3100:3100 grafana/loki:2.9.4
 
 networks:

@@ -1,0 +1,40 @@
+# default vault, есть не удаленный vault от контейнера с названием my_wiremock
+version: "3"
+services:
+  wiremock:
+    image: "wiremock/wiremock:latest"
+    container_name: wiremock
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./mappings:/home/wiremock/mappings
+    command: ["--verbose"]
+##    entrypoint: ["/docker-entrypoint.sh", "--global-response-templating", "--disable-gzip", "--verbose"]
+
+# только название
+#version: "3"
+#services:
+#  wiremock:
+#    image: "wiremock/wiremock:latest"
+#    container_name: wiremock
+#    ports:
+#      - "8081:8080"
+#    volumes:
+#      - wiremock_data:/home/wiremock/mappings
+#    command: ["--verbose"]
+#
+#volumes:
+#  wiremock_data:
+#    name: wiremock_data  # Явное указание имени тома
+
+# с локальным volume, файлы ответов
+#version: "3"
+#services:
+#  wiremock:
+#    image: "wiremock/wiremock:latest"
+#    container_name: wiremock
+#    ports:
+#      - "8081:8080"
+#    volumes:
+#      - /Users/sultan/wiremock_data:/home/wiremock/mappings
+#    command: ["--verbose"]
