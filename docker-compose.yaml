@@ -7,10 +7,10 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
-  master_redis:
-    image: redis/redis-stack:latest
-    ports:
-      - "6379:6379"
+  # master_redis:
+  #   image: redis/redis-stack:latest
+  #   ports:
+  #     - "6379:6379"
   minio:
     image: minio/minio
     ports:
@@ -61,6 +61,16 @@ services:
       sleep 30 &&
       /init-kafka.sh &&
       wait"
+  elastic_search:
+    image: elasticsearch:8.8.0
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=password
+
 
 volumes:
   kafka_data:
