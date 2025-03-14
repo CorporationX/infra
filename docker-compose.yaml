@@ -62,14 +62,16 @@ services:
       /init-kafka.sh &&
       wait"
   elastic_search:
-    image: elasticsearch:8.8.0
+    image: elasticsearch:8.17.3
     ports:
       - 9200:9200
       - 9300:9300
     environment:
       - discovery.type=single-node
-      - xpack.security.enabled=false
+      - xpack.security.enabled=true
       - ELASTIC_PASSWORD=password
+      - _JAVA_OPTIONS=-XX:UseSVE=0
+
 
 
 volumes:
