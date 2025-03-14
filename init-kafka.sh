@@ -35,6 +35,7 @@ for TOPIC_CONFIG in \
   "userViewProfileTopic:3:1" \
   "event_start_topic:1:1" \
   "analytics_user_view_profile_topic:1:1"
+  "rate_change_notifications:1:1"
 do
   TOPIC=$(echo $TOPIC_CONFIG | cut -d: -f1)
   PARTITIONS=$(echo $TOPIC_CONFIG | cut -d: -f2)
