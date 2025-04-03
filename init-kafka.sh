@@ -25,17 +25,23 @@ echo ""
 
 TOPIC_LIST=$(/opt/kafka/bin/kafka-topics.sh --bootstrap-server kafka:9092 --list)
 
-# Check and create each topic
+# Create topics if they don't exist
 for TOPIC_CONFIG in \
-  "notification_like_topic:3:1" \
-  "notification_comment_topic:2:1" \
-  "analytics_like_topic:3:1" \
-  "analytics_comment_topic:1:1" \
-  "user_ban_topic:1:1" \
-  "userViewProfileTopic:3:1" \
-  "event_start_topic:1:1" \
-  "analytics_user_view_profile_topic:1:1"
-  "rate_change_notifications:1:1"
+   "notification_like_topic:3:1" \
+   "notification_comment_topic:2:1" \
+   "analytics_like_topic:3:1" \
+   "analytics_comment_topic:1:1" \
+   "user_ban_topic:1:1" \
+   "userViewProfileTopic:3:1" \
+   "event_start_topic:1:1" \
+   "analytics_user_view_profile_topic:1:1" \
+   "rate_change_notifications:1:1" \
+   "comments:3:1" \
+   "likes:3:1" \
+   "posts:3:1" \
+   "post_views:2:1" \
+   "heat_posts:2:1" \
+   "heat_feed:2:1"
 do
   TOPIC=$(echo $TOPIC_CONFIG | cut -d: -f1)
   PARTITIONS=$(echo $TOPIC_CONFIG | cut -d: -f2)
