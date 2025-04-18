@@ -16,7 +16,6 @@ services:
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
-    command: redis-server --maxmemory 64mb --maxmemory-policy allkeys-lru
     deploy:
       resources:
         limits:
