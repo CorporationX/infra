@@ -83,7 +83,7 @@ services:
           memory: 256M
 
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     restart: unless-stopped
     environment:
       ES_JAVA_OPTS: "-Xms256m -Xmx256m"
