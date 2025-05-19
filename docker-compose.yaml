@@ -35,3 +35,17 @@ services:
       /usr/bin/mc anonymous set public minio/corpbucket;
       exit 0;
       "
+  consul:
+    image: hashicorp/consul:1.16
+    container_name: consul
+    command: agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
+    ports:
+      - "8500:8500"
+    volumes:
+      - ./kv-data.json:/kv-data.json
+      - ./load-kv.sh:/load-kv.sh
+      - consul-data:/consul/data
+    entrypoint: /bin/sh -c "apk add --no-cache jq curl >/dev/null && /load-kv.sh & consul agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0 -data-dir=/consul/data"
+
+volumes:
+  consul-data:
