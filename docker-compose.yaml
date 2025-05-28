@@ -7,7 +7,7 @@ services:
       - POSTGRES_PASSWORD=password
       - POSTGRES_DB=postgres
     ports:
-      - '5432:5432'
+      - '5433:5432'
   master_redis:
     image: redis/redis-stack:latest
     ports:
@@ -35,3 +35,13 @@ services:
       /usr/bin/mc anonymous set public minio/corpbucket;
       exit 0;
       "
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: ghcr.io/joeferner/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:master_redis:6379
+    ports:
+      - "3001:8081"
+    user: redis
