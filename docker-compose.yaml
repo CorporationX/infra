@@ -12,6 +12,16 @@ services:
     image: redis/redis-stack:latest
     ports:
       - "6379:6379"
+  redis-commander:
+    container_name: redis-commander
+    hostname: redis-commander
+    image: ghcr.io/joeferner/redis-commander:latest
+    restart: always
+    environment:
+      - REDIS_HOSTS=local:master_redis:6379
+    ports:
+      - "3001:8081"
+    user: redis
   minio:
     image: minio/minio
     ports:
@@ -35,13 +45,3 @@ services:
       /usr/bin/mc anonymous set public minio/corpbucket;
       exit 0;
       "
-  redis-commander:
-    container_name: redis-commander
-    hostname: redis-commander
-    image: ghcr.io/joeferner/redis-commander:latest
-    restart: always
-    environment:
-      - REDIS_HOSTS=local:master_redis:6379
-    ports:
-      - "3001:8081"
-    user: redis
