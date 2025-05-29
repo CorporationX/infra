@@ -40,7 +40,7 @@ services:
     container_name: consul
     command: agent -server -bootstrap-expect=1 -ui -bind=0.0.0.0 -client=0.0.0.0
     ports:
-         "8500:8500"
+      - "8500:8500"
     volumes:
       - ./kv-data.json:/kv-data.json
       - ./load-kv.sh:/load-kv.sh
