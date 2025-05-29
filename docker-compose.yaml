@@ -16,7 +16,6 @@ services:
     container_name: redis-commander
     hostname: redis-commander
     image: ghcr.io/joeferner/redis-commander:latest
-    restart: always
     environment:
       - REDIS_HOSTS=local:master_redis:6379
     ports:
