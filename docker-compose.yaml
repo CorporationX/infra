@@ -23,7 +23,7 @@ services:
   redis-commander:
     image: ghcr.io/joeferner/redis-commander:latest
     container_name: redis-commander
-    restart: always
+    restart: unless-stopped
     environment:
       - REDIS_HOSTS=local:master_redis:6379
     ports:
