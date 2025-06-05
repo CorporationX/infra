@@ -1,4 +1,3 @@
-#!/bin/sh
 
 echo "⏳ Ожидаем запуска Consul..."
 until curl -s http://localhost:8500/v1/status/leader | grep -q '"'; do
