@@ -132,14 +132,12 @@ services:
     volumes:
       - ../user_service/logs:/user_service_logs:ro
       - ../payment_service/logs:/payment_service_logs:ro
-
       - ../notification_service/logs:/notification_service_logs:ro
       - ../post_service/logs:/post_service_logs:ro
       - ../project-service/logs:/project_service_logs:ro
       - ../analytics-service/logs:/analytics_service_logs:ro
       - ../account-service/logs:/account_service_logs:ro
       - ../achievement-service/logs:/achievement_service_logs:ro
-
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
 
   logstash:
