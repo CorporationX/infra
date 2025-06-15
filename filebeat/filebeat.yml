@@ -1,0 +1,82 @@
+#logging.level: debug
+#logging.selectors: ["*","publisher","kafka","retry","libbeat.outputs.kafka"]
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /user_service_logs/*.log
+    fields:
+      service: user-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /payment_service_logs/*.log
+    fields:
+      service: payment-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /notification_service_logs/*.log
+    fields:
+      service: notification-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /post_service_logs/*.log
+    fields:
+      service: post-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /project_service_logs/*.log
+    fields:
+      service: project-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /analytics_service_logs/*.log
+    fields:
+      service: analytics-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /account_service_logs/*.log
+    fields:
+      service: account-service
+    fields_under_root: true
+
+  - type: log
+    enabled: true
+    paths:
+      - /achievement_service_logs/*.log
+    fields:
+      service: achievement-service
+    fields_under_root: true
+
+output.kafka:
+  hosts: ["kafka-1:9090", "kafka-2:9090", "kafka-3:9090"]
+  topic: "logs-%{[service]}-topic"
+  partition.round_robin:
+    reachable_only: true
+  required_acks: 1
+  compression: gzip
+  max_message_bytes: 1000000
+
+  backoff.init: 1s
+  backoff.max: 10s
+  max_retries: 3
+
+  bulk_max_size: 500
+  idle_timeout: 1s
