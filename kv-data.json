@@ -1,7 +1,7 @@
 {
   "config/user-service/goals/max-active-goals": 3,
-  "config/user-service/redis/analytics/promotion/counter-threshold": 1000,
-  "config/user-service/analytics/promotion/flush-interval-ms": 20000,
+  "config/user-service/redis/analytics/counter-threshold": 1000,
+  "config/user-service/analytics/promotion/flush-interval-ms": 360000,
   "config/user-service/analytics/promotion/update-batch-size": 1000,
   "config/user-service/promotion/profile/vip-view-coefficient": 0.25,
   "config/user-service/promotion/profile/gold-view-coefficient": 0.25,
@@ -9,7 +9,6 @@
   "config/user-service/promotion/event/vip-view-coefficient": 0.25,
   "config/user-service/promotion/event/gold-view-coefficient": 0.25,
   "config/user-service/promotion/event/plus-view-coefficient": 0.25,
-  "config/user-service/goals/max-active-goals": 3,
   "config/post-service/post-media.maxImageSizeMb": 5242880,
   "config/post-service/post-media.maxAudioSizeMb": 3145728,
   "config/post-service/post-media.maxVideoSizeMb": 31457280,
