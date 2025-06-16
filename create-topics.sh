@@ -16,8 +16,11 @@ if [[ ! -f "$CONFIG_FILE" ]]; then
 fi
 
 while IFS= read -r TOPIC || [[ -n "$TOPIC" ]]; do
+  # Убираем возможные \r и пробелы в начале и конце строки
   TOPIC=$(echo "$TOPIC" | tr -d '\r' | xargs)
-  if [[ -z "$TOPIC" ]]; then continue; fi
+  if [[ -z "$TOPIC" ]]; then
+    continue
+  fi
 
   echo "Создаём топик: $TOPIC"
   kafka-topics.sh --bootstrap-server "$BROKER" \
