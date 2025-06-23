@@ -1,4 +1,4 @@
-#!/bin/bas
+#!/bin/bash
 
 CONFIG_FILE="topics.conf"
 BROKER="kafka:9092"
