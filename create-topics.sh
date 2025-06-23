@@ -6,14 +6,14 @@ PARTITIONS=1
 REPLICATION_FACTOR=1
 
 echo "Ожидаем доступность брокера Kafka ($BROKER)..."
-until kafka-topics.sh --bootstrap-server "$BROKER" --list >/dev/null 2>&1; do
+for i in {1..30}; do
+  if kafka-topics.sh --bootstrap-server "$BROKER" --list >/dev/null 2>&1; then
+    echo "Kafka доступна!"
+    break
+  fi
+  echo "Ожидание $i..."
   sleep 2
 done
-
-if [[ ! -f "$CONFIG_FILE" ]]; then
-  echo "Файл $CONFIG_FILE не найден!"
-  exit 1
-fi
 
 while IFS= read -r TOPIC || [[ -n "$TOPIC" ]]; do
   TOPIC=$(echo "$TOPIC" | tr -d '\r' | xargs)
