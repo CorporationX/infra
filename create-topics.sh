@@ -1,7 +1,7 @@
 #!/bin/bash
 
 CONFIG_FILE="topics.conf"
-BROKER="kafka:9092"
+BROKER="kafka:29092"
 PARTITIONS=1
 REPLICATION_FACTOR=1
 
