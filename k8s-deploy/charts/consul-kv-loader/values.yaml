@@ -1,0 +1,3 @@
+consulAddress: http://consul-server:8500
+configMapName: consul-kv-data
+filename: kv-data.json

@@ -1,0 +1,6 @@
+apiVersion: v2
+name: consul-kv-loader
+description: A Helm chart to load KV pairs into Consul
+type: application
+version: 0.1.0
+appVersion: "1.0"

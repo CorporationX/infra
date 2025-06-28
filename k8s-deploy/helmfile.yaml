@@ -1,0 +1,132 @@
+repositories:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
+  - name: hashicorp
+    url: https://helm.releases.hashicorp.com
+
+releases:
+  - name: postgres
+    chart: bitnami/postgresql
+    values:
+      - auth:
+          username: user
+          password: password
+          database: postgres
+        primary:
+          persistence:
+            enabled: true
+            size: 500Mi
+
+  - name: kafka
+    chart: bitnami/kafka
+    values:
+      - replicaCount: 1
+        zookeeper:
+          enabled: false
+        kraft:
+          enabled: true
+        listeners:
+          client:
+            protocol: PLAINTEXT
+            port: 9092
+        advertisedListeners:
+           client:
+             protocol: PLAINTEXT
+             name: kafka
+             port: 9092
+        service:
+          type: ClusterIP
+        extraEnvVars:
+          - name: KAFKA_CFG_ADVERTISED_LISTENERS
+            value: PLAINTEXT://kafka:9092
+          - name: KAFKA_CFG_LISTENERS
+            value: PLAINTEXT://:9092
+        persistence:
+          enabled: true
+          size: 500Mi
+          storageClass: "standard"
+
+  - name: redis
+    chart: bitnami/redis
+    values:
+      - auth:
+          enabled: false
+        replica:
+          replicaCount: 1
+
+  - name: minio
+    chart: bitnami/minio
+    values:
+      - auth:
+          rootUser: user
+          rootPassword: password
+        defaultBuckets: corpbucket
+        mode: standalone
+        service:
+          type: ClusterIP
+        persistence:
+          enabled: false
+
+        # Consul
+  - name: consul
+    chart: hashicorp/consul
+    values:
+      - global:
+          name: consul
+        ui:
+          enabled: true
+        server:
+          replicas: 1
+          storage: 500Mi
+          storageClass: standard
+          persistentVolume:
+            enabled: true
+        client:
+          enabled: true
+
+  - name: consul-kv-loader
+    chart: ./charts/consul-kv-loader
+    values:
+      - consulAddress: http://consul-server:8500
+        configMapName: consul-kv-data
+        filename: kv-data.json
+
+        # Zipkin (через bitnami)
+  - name: zipkin
+    chart: bitnami/zipkin
+    values: [ ]
+
+  - name: user-service
+    chart: ./charts/user-service
+    needs:
+      - consul-kv-loader
+      - consul
+      - postgres
+      - kafka
+      - redis
+    values:
+      - ./charts/user-service/values.yaml
+
+  - name: payment-service
+    chart: ./charts/payment-service
+    needs:
+      - consul-kv-loader
+      - consul
+    values:
+      - ./charts/payment-service/values.yaml
+
+  - name: ingress-nginx
+    chart: bitnami/nginx-ingress-controller
+    namespace: ingress-nginx
+    createNamespace: true
+    values:
+      - controller:
+          publishService:
+            enabled: true
+      - service:
+          type: LoadBalancer
+
+  - name: ingress-rules
+    chart: ./charts/ingress
+    values:
+      - ./charts/ingress/values.yaml
