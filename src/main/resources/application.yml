@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: kafka-config-service
+  kafka:
+    bootstrap-servers: localhost:9092,localhost:9192,localhost:9292
+    topics:
+      - name: goal_completed
+        partitions: 3
+        replicas: 3
+      - name: goal_attached
+        partitions: 3
+        replicas: 3
+
+logging.level.org.apache.kafka.clients.admin: INFO
