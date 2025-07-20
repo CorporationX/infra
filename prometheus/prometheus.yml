@@ -1,0 +1,10 @@
+global:
+  scrape_interval: 15s
+
+scrape_configs:
+  - job_name: 'Corporation-X-URL-shortener'
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets: # имена сервисов из docker-compose
+#          - 'host.docker.internal:8080' #user-service
+          - 'host.docker.internal:8098' #url-shortener
