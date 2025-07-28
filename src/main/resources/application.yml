@@ -10,5 +10,8 @@ spring:
       - name: goal_attached
         partitions: 3
         replicas: 3
+      - name: posts
+        partitions: 3
+        replicas: 3
 
 logging.level.org.apache.kafka.clients.admin: INFO
