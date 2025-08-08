@@ -7,6 +7,16 @@ services:
       - POSTGRES_DB=postgres
     ports:
       - '5432:5432'
+
+  promotion_postgres:
+    image: postgres:13.3
+    environment:
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=promotion
+    ports:
+      - '5433:5432'
+
   master_redis:
     image: redis/redis-stack:latest
     ports:
