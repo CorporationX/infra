@@ -17,6 +17,18 @@ services:
     ports:
       - '5433:5432'
 
+  mongo:
+    image: mongo
+    restart: always
+    volumes:
+      - ./init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js
+    environment:
+      MONGO_INITDB_DATABASE: mongo
+      MONGO_INITDB_ROOT_USERNAME: user
+      MONGO_INITDB_ROOT_PASSWORD: password
+    ports:
+      - "27017:27017"
+
   master_redis:
     image: redis/redis-stack:latest
     ports:
