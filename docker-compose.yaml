@@ -76,5 +76,13 @@ services:
     depends_on:
       - kafka
 
+  init-kafka:
+    image: confluentinc/cp-kafka:7.3.0
+    depends_on:
+      - kafka
+    volumes:
+      - ./init-kafka.sh:/scripts/init-kafka.sh
+    entrypoint: [ "bash", "/scripts/init-kafka.sh" ]
+
 volumes:
   kafka_data:
