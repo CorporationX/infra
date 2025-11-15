@@ -21,9 +21,7 @@ create_topic_if_not_exists() {
 
 echo "Инициализация топиков Kafka"
 
-create_topic_if_not_exists "notifications.events"
-create_topic_if_not_exists "analytics.events"
-create_topic_if_not_exists "achievements.events"
+create_topic_if_not_exists "analytics.profile-view"
 
 echo "Инициализация завершена!"
 kafka-topics --bootstrap-server kafka:29092 --list
