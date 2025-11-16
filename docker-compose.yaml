@@ -82,6 +82,7 @@ services:
       - kafka
     volumes:
       - ./init-kafka.sh:/scripts/init-kafka.sh
+      - ./kafka-topics.conf:/scripts/kafka-topics.conf
     entrypoint: [ "bash", "/scripts/init-kafka.sh" ]
 
 volumes:
