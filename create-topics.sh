@@ -32,8 +32,8 @@ while IFS= read -r line || [[ -n "$line" ]]; do
     TOPIC=$(awk '{print $1}' <<< "$line")
     PART=$(awk '{print $2}' <<< "$line")
 
-    # Если партиций не указано — ставим 1
-    [[ -z "$PART" || ! "$PART" =~ ^[0-9]+$ ]] && PART=1
+    # Если партиций не указано — ставим 3
+    [[ -z "$PART" || ! "$PART" =~ ^[0-9]+$ ]] && PART=3
 
     echo -n "Topic '$TOPIC' ($PART partitions) — "
 
