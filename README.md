@@ -30,6 +30,29 @@
 5. Для остановки всех контейнеров, в консоли выполните команду
    ```bash
    make down
+   
+# Kafka Topics Creator (для apache/kafka)
+
+Скрипт автоматически создаёт все топики из файла `kafka-topics.txt`.
+
+#### Что нужно
+
+- Docker запущен
+- Контейнер с Kafka на образе `apache/kafka` (любой версии)
+- Порт 9092 проброшен наружу (`ports: - "9092:9092"` в docker-compose.yml)
+
+### Как пользоваться:
+
+#### Linux / macOS / Git Bash (Windows)
+ 1. Добавь в kafka-topics.txt свои топики
+
+ 2. Дай права на запуск
+    ```bash
+      chmod +x create-topics.sh 
+ 3. Запусти
+       ```bash
+      ./create-topics.sh
+      ```
 
 ## Список команд make
 
