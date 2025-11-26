@@ -85,7 +85,7 @@ services:
       - KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS=0
       - KAFKA_AUTO_CREATE_TOPICS_ENABLE=false
     volumes:
-      - kafka_data:/tmp/kafka-logs
+      - kafka_data:/var/lib/kafka/data
     networks:
       - infra_network
     healthcheck:
