@@ -15,7 +15,7 @@ create_topic_if_not_exists() {
         kafka-topics --bootstrap-server kafka:29092 \
             --create \
             --topic "$topic_name" \
-            --partitions "$partitions"
+            --partitions 3
     fi
 }
 
