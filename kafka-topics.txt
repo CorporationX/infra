@@ -1,2 +1,3 @@
 event-recommendation 1
 user-ban-topic 4
+recommendation-topic 5

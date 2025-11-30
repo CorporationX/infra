@@ -53,6 +53,11 @@
        ```bash
       ./create-topics.sh
       ```
+ В случае возникновений спец символов в create-topics, пример /bin/bash^M:
+использовать команду
+ ```bash
+    sed -i 's/\r$//' create-topics.sh
+  ```
 
 ## Список команд make
 
