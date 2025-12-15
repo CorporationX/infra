@@ -42,6 +42,15 @@ services:
     networks:
       - monitoring
     restart: unless-stopped
+    command: >
+      /bin/sh -c " 
+      echo 'save 60 1' >> /redis-stack.conf &&
+      echo 'appendonly yes' >> /redis-stack.conf &&
+      echo 'appendfsync everysec' >> /redis-stack.conf &&
+      redis-server /redis-stack.conf --protected-mode no
+      "
+    volumes:
+      - redis_data:/data
     logging: *logging
     healthcheck:
       test: [ "CMD", "redis-cli", "--raw", "incr", "ping" ]
@@ -193,7 +202,7 @@ services:
       - '--storage.tsdb.path=/prometheus'
       - '--web.console.libraries=/etc/prometheus/console_libraries'
       - '--web.console.templates=/etc/prometheus/consoles'
-      - '--storage.tsdb.retention.time=48h'
+      - '--storage.tsdb.retention.time=3d'
       - '--web.enable-lifecycle'
     restart: unless-stopped
     networks:
@@ -283,7 +292,7 @@ services:
       - monitoring
     logging: *logging
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/healthz | grep -q cAdvisor" ]
+      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:8080/healthz" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -311,11 +320,11 @@ services:
       - monitoring
     logging: *logging
     healthcheck:
-      test: [ "CMD", "curl", "-f", "http://localhost:9200/_cluster/health" ]
+      test: [ "CMD-SHELL", "curl -f http://localhost:9200/_cluster/health?wait_for_status=yellow&timeout=30s || exit 1" ]
       interval: 30s
-      timeout: 30s
+      timeout: 60s
       retries: 10
-      start_period: 90s
+      start_period: 120s
     ulimits:
       memlock:
         soft: -1
@@ -453,7 +462,7 @@ services:
       - monitoring
     logging: *logging
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:9121/metrics | grep -q redis_up" ]
+      test: [ "CMD", "/redis_exporter", "--version" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -508,7 +517,7 @@ services:
       - monitoring
     logging: *logging
     healthcheck:
-      test: [ "CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:9080/ready" ]
+      test: [ "CMD-SHELL", "timeout 1 bash -c 'cat < /dev/null > /dev/tcp/localhost/9080'" ]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -530,6 +539,7 @@ volumes:
   loki_data:
   postgres_data:
   minio_data:
+  redis_data:
 
 networks:
   monitoring:
