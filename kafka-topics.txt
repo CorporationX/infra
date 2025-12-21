@@ -1,1 +1,3 @@
 recommendation-topic 5
+post.created 3
+post.to-feed 3
