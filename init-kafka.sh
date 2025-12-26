@@ -1,6 +1,6 @@
 #!/bin/bash
 echo "Ожидание запуска Kafka..."
-sleep 14s
+sleep 14
 
 create_topic_if_not_exists() {
     local topic_name=$1
